@@ -81,17 +81,23 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
+    - family: Cerco
+      fonts:
+        - asset: assets/fonts/Cerco-Regular.ttf
+
     - family: Std-Regular
       fonts:
-        - asset: assets/fonts/Circular-Std-Font-Regular.otf
+        - asset: assets/fonts/circular-std-medium-500.ttf
 
     - family: Aquire-Regular
       fonts:
         - asset: assets/fonts/Aquire-Regular.otf
 
-    - family: Monteserrat-Regular
+    - family: Montserrat-Regular
       fonts:
-        - asset: assets/fonts/Monteserrat-Regular.ttf
+        - asset: assets/fonts/Montserrat-Regular.ttf
+          style: normal
+          weight: 400
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
