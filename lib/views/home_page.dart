@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:prime_vpn/getx_state/wave_animation.dart';
-import 'package:prime_vpn/pages/info_page.dart';
+import 'package:prime_vpn/views/info_page.dart';
 import 'package:prime_vpn/widgets/all_widgets.dart';
+import 'package:prime_vpn/widgets/countdown_timer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,15 +14,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  late AnimationController controller =
-      AnimationController(vsync: this, duration: const Duration(seconds: 10))
+  late AnimationController controller = AnimationController(vsync: this, duration: const Duration(seconds: 10))
         ..repeat();
+  late AnimationController spiralController = AnimationController(vsync: this, duration: const Duration(seconds: 7))
+        ..repeat();
+  RxBool _isStarted = false.obs;
   // late Animation<double> animation;
-  late AnimationController spiralController =
-      AnimationController(vsync: this, duration: const Duration(seconds: 7))
-        ..repeat();
   // late Animation<double> spiralAnimation;
-
   // animation = CurvedAnimation(parent: controller, curve: Curves.linear);
   // spiralAnimation = CurvedAnimation(parent: spiralController, curve: Curves.linear);
 
@@ -63,7 +62,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ),
         actions: [
           InkWell(
-            onTap: () => Get.to(const InfoPage()),
+            onTap: () => Get.to(() => const InfoPage()),
             child: SizedBox(
                 width: 24,
                 height: 24,
@@ -80,12 +79,26 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+              Obx(() =>CountDownTimer(isStarted: _isStarted.value)),
+              Obx(()=> Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: Center(
+                    child: Text(
+                      (_isStarted.value)?'Connected':'Not Connected',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.secondary,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w400,
+                        fontFamily: 'Montserrat-Regular',
+                      ),
+                    ),
+                  ),
+                )),
               SizedBox(
-                // height: mq.height*0.3,
                 child: GridView.count(
-                  crossAxisCount: 2,
+                  crossAxisCount:(mq.width < 285)?1: 2,
                   shrinkWrap: true,
-                  childAspectRatio: (2 / 1),
+                  childAspectRatio:(mq.width < 285)?(3/1) :(2 / 1),
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
                   children: [
@@ -130,7 +143,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     )),
                     Center(
                         child: InkWell(
-                      onTap: () => waveAnimationController.updateState(),
+                      onTap: () {
+                        _isStarted.value = !_isStarted.value;
+                       waveAnimationController.updateState();
+                      },
                       child: Image.asset('assets/images/btn_start.png',
                           height: 65, width: 65),
                     )),
