@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 import 'package:prime_vpn/widgets/all_widgets.dart';
-import '../theme/theme.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
@@ -25,13 +23,12 @@ class AccountPage extends StatelessWidget {
         ),
         actions: [
           InkWell(
-            onTap: () => Get.changeTheme(
-                Get.isDarkMode ? Themes.darkTheme : Themes.lightTheme),
+            onTap: () {},//=> Get.changeTheme(Get.isDarkMode ? ThemeData.light(): ThemeData.dark()),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Icon(Icons.brightness_4_rounded,
-                  color: Theme.of(context).colorScheme.primary, size: 24),
-            ),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Icon(Icons.brightness_4_rounded,
+                    color: Theme.of(context).colorScheme.primary, size: 24),
+              ),
           ),
         ],
       ),

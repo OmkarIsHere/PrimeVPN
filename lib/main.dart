@@ -1,25 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'views/account_page.dart';
 import 'views/home_page.dart';
 import 'views/location_page.dart';
 import 'theme/theme.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   MyApp({super.key});
+
+  final myLightTheme= SystemUiOverlayStyle.dark.copyWith(
+      systemNavigationBarColor:const Color(0xFFFFFFFF),
+      statusBarColor:const Color(0xFFFFFFFF));
+
+   final myDarkTheme= SystemUiOverlayStyle.light.copyWith(
+       systemNavigationBarColor:const Color(0xFF12122E),
+       statusBarColor:const Color(0xFF12122E));
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(myDarkTheme);
+    // (Get.isDarkMode) ?SystemChrome.setSystemUIOverlayStyle(myDarkTheme):SystemChrome.setSystemUIOverlayStyle(myDarkTheme);
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Prime VPN',
-      theme:Themes.darkTheme,
-      darkTheme: Themes.lightTheme,
+      theme:darkTheme,
+      // darkTheme:lightTheme,
+      // themeMode: (Get.isDarkMode) ? ThemeMode.dark : ThemeMode.light,
       home: const MyHomePage(),
     );
   }
@@ -27,7 +43,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -37,6 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final _pages = [const HomePage(), const LocationPage(), const AccountPage()];
   @override
   Widget build(BuildContext context) {
+    FlutterNativeSplash.remove();
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       bottomNavigationBar: BottomNavigationBar(

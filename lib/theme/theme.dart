@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Themes{
-
-static final ThemeData darkTheme = ThemeData(
+final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     dividerColor:const Color(0xFF152033),
     fontFamily: 'Cerco',
@@ -19,7 +17,7 @@ static final ThemeData darkTheme = ThemeData(
     )
 );
 
-static final ThemeData lightTheme = ThemeData(
+final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     dividerColor:const Color(0xFFEDEDED),
     fontFamily: 'Cerco',
@@ -36,4 +34,3 @@ static final ThemeData lightTheme = ThemeData(
     )
 );
 
-}
