@@ -18,11 +18,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ..repeat();
   late AnimationController spiralController = AnimationController(vsync: this, duration: const Duration(seconds: 7))
         ..repeat();
-  RxBool _isStarted = false.obs;
-  // late Animation<double> animation;
-  // late Animation<double> spiralAnimation;
-  // animation = CurvedAnimation(parent: controller, curve: Curves.linear);
-  // spiralAnimation = CurvedAnimation(parent: spiralController, curve: Curves.linear);
+  final RxBool _isStarted = false.obs;
 
   @override
   void dispose() {
@@ -64,10 +60,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           InkWell(
             onTap: () => Get.to(() => const InfoPage()),
             child: SizedBox(
-                width: 24,
-                height: 24,
+              width: 30,
                 child: Icon(Icons.info_outline_rounded,
-                    color: Theme.of(context).colorScheme.secondary.withOpacity(0.7))),
+                    color: Theme.of(context).colorScheme.secondary.withOpacity(0.7),
+                size: 20,)),
           ),
           SizedBox(
             width: mq.width * 0.03,

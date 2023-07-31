@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get.dart';
 import 'views/account_page.dart';
 import 'views/home_page.dart';
 import 'views/location_page.dart';
@@ -18,7 +18,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Prime VPN',
-      theme: darkTheme,
+      theme:Themes.darkTheme,
+      darkTheme: Themes.lightTheme,
       home: const MyHomePage(),
     );
   }

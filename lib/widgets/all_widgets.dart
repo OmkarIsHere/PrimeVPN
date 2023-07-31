@@ -28,3 +28,11 @@ Widget overViewBox(BuildContext context, String header, String data, String icon
     ),
   );
 }
+
+Widget divider(BuildContext context){
+  return Divider(
+    height: 2,
+    thickness: 1,
+    color: Theme.of(context).dividerColor,
+  );
+}
