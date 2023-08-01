@@ -31,7 +31,7 @@ class InfoPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
           child: Column(
-            children: <Widget>[
+            children: <Widget>  [
               IpInfoCard(
                   svg: 'assets/svg/info/location-pin.svg',
                   title: 'IP Address',

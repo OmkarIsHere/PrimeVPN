@@ -38,6 +38,9 @@ dependencies:
   flutter_svg: ^2.0.7
   get: ^4.6.5
   flutter_native_splash: ^2.3.1
+  lottie: ^2.5.0
+  http: ^1.1.0
+  csv: ^5.0.2
 #  intl: ^0.18.1
 
   # The following adds the Cupertino Icons font to your application.
@@ -80,6 +83,7 @@ flutter:
     - assets/svg/info/
     - assets/fonts/
     - assets/images/
+    - assets/json/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

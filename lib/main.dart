@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:prime_vpn/routes/app_routes.dart';
 import 'views/account_page.dart';
 import 'views/home_page.dart';
 import 'views/location_page.dart';
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
       theme:darkTheme,
       // darkTheme:lightTheme,
       // themeMode: (Get.isDarkMode) ? ThemeMode.dark : ThemeMode.light,
-      home: const MyHomePage(),
+      getPages: AppRoutes.appRoutes(),
     );
   }
 }
@@ -94,4 +95,3 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 }
-
