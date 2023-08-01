@@ -3,9 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:prime_vpn/view_model/route_to.dart';
 import 'package:prime_vpn/view_model/wave_animation_controller.dart';
+import 'package:prime_vpn/widgets/connected_vpn_overview.dart';
 import 'package:prime_vpn/widgets/countdown_timer.dart';
 
-import '../widgets/overview_container.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,19 +14,14 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  late AnimationController controller = AnimationController(vsync: this, duration: const Duration(seconds: 15))
-        ..repeat();
-  late AnimationController spiralController = AnimationController(vsync: this, duration: const Duration(seconds: 7))
-        ..repeat();
-  final RxBool _isStarted = false.obs;
-  final waveAnimationController = WaveAnimationController();
+class _HomePageState extends State<HomePage>{
 
+  final waveAnimationController = WaveAnimationController();
 
   @override
   void dispose() {
-    spiralController.dispose();
-    controller.dispose();
+    waveAnimationController.spiralController.dispose();
+    waveAnimationController.controller.dispose();
     waveAnimationController.dispose();
     super.dispose();
   }
@@ -34,6 +29,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     var mq = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -78,12 +74,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Obx(() =>CountDownTimer(isStarted: _isStarted.value)),
+              Obx(() =>CountDownTimer(isStarted: waveAnimationController.isStarted.value)),
               Obx(()=> Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: Center(
                     child: Text(
-                      (_isStarted.value)?'Connected':'Not Connected',
+                      (waveAnimationController.isStarted.value)?'Connected':'Not Connected',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.secondary,
                         fontSize: 18,
@@ -93,77 +89,55 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     ),
                   ),
                 )),
-              SizedBox(
-                child: GridView.count(
-                  crossAxisCount:(mq.width < 285)?1: 2,
-                  shrinkWrap: true,
-                  childAspectRatio:(mq.width < 285)?(3/1) :(2 / 1),
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  children: const [
-                    OverViewContainer(
-                        header:"Ping",
-                        data: "100 ms",
-                        icon: 'assets/svg/ic_lightning.svg'),
-                    OverViewContainer(
-                        header:"Server",
-                        data: "India",
-                        icon: 'assets/svg/ic_globe.svg'),
-                    OverViewContainer(
-                        header: "Download",
-                        data: "100 Mbps",
-                        icon:'assets/svg/ic_download_ping.svg'),
-                    OverViewContainer(
-                        header: "Upload",
-                        data: "100 Mbps",
-                        icon: 'assets/svg/ic_upload_ping.svg'),
-                  ],
-                ),
-              ),
+              const ConnectedVPNOverview(),
               AspectRatio(
-                aspectRatio: 1 / 1,
-                child: Stack(
-                  children: [
-                    Center(
-                        child: Obx(
-                      () => (waveAnimationController.isStarted.value)
-                          ? RotationTransition(
-                              turns: CurvedAnimation(
-                                  parent: controller, curve: Curves.linear),
-                              alignment: Alignment.center,
-                              child: SvgPicture.asset('assets/svg/wave.svg',height: 250, width: 250))
-                          : const SizedBox(),
-                    )),
-                    Center(
-                        child: Obx(
-                      () => (waveAnimationController.isStarted.value)
-                          ? RotationTransition(
-                              turns: CurvedAnimation(
-                                  parent: spiralController,
-                                  curve: Curves.linear),
-                              alignment: Alignment.center,
-                              child: Image.asset('assets/images/spiral_net.png',
-                                  height: 130, width: 130),
-                            )
-                          : Image.asset('assets/images/spiral_net.png',
-                              height: 130, width: 130),
-                    )),
-                    Center(
-                        child: InkWell(
-                      onTap: () {
-                        _isStarted.value = !_isStarted.value;
-                       waveAnimationController.updateState();
-                      },
-                      child: Image.asset('assets/images/btn_start.png',
-                          height: 65, width: 65),
-                    )),
-                  ],
-                ),
+                  aspectRatio: 1 / 1,
+                  child: Stack(
+                    children: [
+                      Center(
+                          child: Obx(
+                        () => (waveAnimationController.isStarted.value)
+                            ? RotationTransition(
+                                turns: CurvedAnimation(
+                                    parent: waveAnimationController.controller, curve: Curves.linear),
+                                alignment: Alignment.center,
+                                child: SvgPicture.asset('assets/svg/wave.svg',height: 250, width: 250))
+                            : const SizedBox(),
+                      )),
+                      Center(
+                          child: Obx(
+                        () => (waveAnimationController.isStarted.value)
+                            ? RotationTransition(
+                                turns: CurvedAnimation(
+                                    parent: waveAnimationController.spiralController,
+                                    curve: Curves.linear),
+                                alignment: Alignment.center,
+                                child: Image.asset('assets/images/spiral_net.png',
+                                    height: 130, width: 130),
+                              )
+                            : Image.asset('assets/images/spiral_net.png',
+                                height: 130, width: 130),
+                      )),
+                      Center(
+                          child: InkWell(
+                        onTap: () {
+                         // waveAnimationController.isStarted.value = !waveAnimationController.isStarted.value;
+                         waveAnimationController.updateState();
+                        },
+                        child: Image.asset('assets/images/btn_start.png',
+                            height: 65, width: 65),
+                      )),
+                    ],
+                  ),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+  String capitalize(String str){
+    str = str.replaceAll('_', ' ');
+    return (str[0].toUpperCase() + str.substring(1));
   }
 }

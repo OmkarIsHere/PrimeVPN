@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../models/vpn.dart';
 class LocationCountry extends StatelessWidget {
-  final String svg;
-  final String countryName;
-  final String ping;
-  const LocationCountry({super.key, required this.svg, required this.countryName, required this.ping});
+  final VPN vpn;
+  const LocationCountry({super.key, required this.vpn});
 
   Color getColor(int ping){
   if(ping>=70){
@@ -36,19 +36,19 @@ class LocationCountry extends StatelessWidget {
       leading:SizedBox(
         height: 20,
         width: 30,
-        child: SvgPicture.asset(svg, fit: BoxFit.cover),
+        child: SvgPicture.asset('assets/svg/flags/${vpn.countryShort.toLowerCase()}.svg', fit: BoxFit.cover),
       ) ,
         title: Text(
-          countryName,
+          vpn.countryLong,
           style: TextStyle(
               color: Theme.of(context).colorScheme.secondary,
               fontWeight: FontWeight.w400,
               fontSize: 14),
         ),
         trailing:  Text(
-          '$ping ms',
+          '${vpn.ping} ms',
           style: TextStyle(
-              color: getColor(int.parse(ping)),
+              color: getColor(int.parse(vpn.ping)),
               fontWeight: FontWeight.w400,
               fontSize: 12),
         ),

@@ -8,7 +8,7 @@ class LocationController extends GetxController {
   RxBool isLoading = false.obs;
   List<VPN> vpnList = [];
 
-  Future<void>getVPNData() async{
+  Future<void> getVPNData() async {
     isLoading.value = true;
     vpnList = await APIs.getVPNServers();
     isLoading.value = false;
@@ -19,21 +19,18 @@ class LocationController extends GetxController {
         ? Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ListView.builder(
-                shrinkWrap: true,
-                physics:const ClampingScrollPhysics(),
-                itemCount: vpnList.length,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: <Widget>[
-                       LocationCountry(
-                          svg: 'assets/svg/flags/${vpnList[index].countryShort.toLowerCase()}.svg',
-                          countryName:vpnList[index].countryLong,
-                          ping: vpnList[index].ping),
-                    ],
-                  );
-                },
-          )
-        )
+              shrinkWrap: true,
+              physics: const ClampingScrollPhysics(),
+              itemCount: vpnList.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: <Widget>[
+                    LocationCountry(
+                        vpn: vpnList[index]),
+                  ],
+                );
+              },
+            ))
         : Center(
             child: Text(
               'No Data Found',
@@ -45,5 +42,4 @@ class LocationController extends GetxController {
             ),
           );
   }
-
 }
