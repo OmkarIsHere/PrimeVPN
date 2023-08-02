@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:prime_vpn/apis/apis.dart';
 import '../models/vpn.dart';
-import '../widgets/location_country_card.dart';
 
 class LocationController extends GetxController {
   RxBool isLoading = false.obs;
@@ -14,32 +12,4 @@ class LocationController extends GetxController {
     isLoading.value = false;
   }
 
-  vpnData(BuildContext context) {
-    return (vpnList.isNotEmpty)
-        ? Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: ListView.builder(
-              shrinkWrap: true,
-              physics: const ClampingScrollPhysics(),
-              itemCount: vpnList.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: <Widget>[
-                    LocationCountry(
-                        vpn: vpnList[index]),
-                  ],
-                );
-              },
-            ))
-        : Center(
-            child: Text(
-              'No Data Found',
-              style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
-                  fontFamily: 'Montserrat-Regular',
-                  fontWeight: FontWeight.w500,
-                  fontSize: 14),
-            ),
-          );
-  }
 }

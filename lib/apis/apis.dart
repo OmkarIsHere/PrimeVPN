@@ -24,7 +24,7 @@ class APIs {
       }
     } catch (e) {
       if (kDebugMode) {
-        print('Apis.dart: $e');
+        print('Apis.dart Exception: $e');
       }
     }
     return vpnList;

@@ -4,4 +4,9 @@ class RouteTo{
   static route(String routeName){
     Get.toNamed(routeName);
   }
+
+  static routeBack(){
+    Get.back();
+  }
+
 }

@@ -19,7 +19,7 @@ class VPN {
   late final String hostName;
   late final String ip;
   late final int score;
-  late final String ping;
+  late final int ping;
   late final int speed;
   late final String countryLong;
   late final String countryShort;
@@ -36,14 +36,14 @@ class VPN {
     hostName = json['HostName'] ?? '';
     ip = json['IP'] ?? '';
     score = json['Score'] ?? 0;
-    ping = json['Ping'].toString();
+    ping = json['Ping'] ?? 0;
     speed = json['Speed'] ?? 0;
     countryLong = json['CountryLong'] ?? '';
     countryShort = json['CountryShort'] ?? '';
-    numVpnSessions = json['NumVpnSessions'] ?? '';
-    uptime = json['Uptime'] ?? '';
-    totalUsers = json['TotalUsers'] ?? '';
-    totalTraffic = json['TotalTraffic'] ?? '';
+    numVpnSessions = json['NumVpnSessions'] ?? 0;
+    uptime = json['Uptime'] ?? 0;
+    totalUsers = json['TotalUsers'] ?? 0;
+    totalTraffic = json['TotalTraffic'] ?? 0;
     logType = json['LogType'] ?? '';
     operator = json['Operator'] ?? '';
     message = json['Message'] ?? '';
@@ -51,22 +51,22 @@ class VPN {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['HostName'] = hostName;
-    _data['IP'] = ip;
-    _data['Score'] = score;
-    _data['Ping'] = ping;
-    _data['Speed'] = speed;
-    _data['CountryLong'] = countryLong;
-    _data['CountryShort'] = countryShort;
-    _data['NumVpnSessions'] = numVpnSessions;
-    _data['Uptime'] = uptime;
-    _data['TotalUsers'] = totalUsers;
-    _data['TotalTraffic'] = totalTraffic;
-    _data['LogType'] = logType;
-    _data['Operator'] = operator;
-    _data['Message'] = message;
-    _data['OpenVPN_ConfigData_Base64'] = openVPNConfigDataBase64;
-    return _data;
+    final data = <String, dynamic>{};
+    data['HostName'] = hostName;
+    data['IP'] = ip;
+    data['Score'] = score;
+    data['Ping'] = ping;
+    data['Speed'] = speed;
+    data['CountryLong'] = countryLong;
+    data['CountryShort'] = countryShort;
+    data['NumVpnSessions'] = numVpnSessions;
+    data['Uptime'] = uptime;
+    data['TotalUsers'] = totalUsers;
+    data['TotalTraffic'] = totalTraffic;
+    data['LogType'] = logType;
+    data['Operator'] = operator;
+    data['Message'] = message;
+    data['OpenVPN_ConfigData_Base64'] = openVPNConfigDataBase64;
+    return data;
   }
 }

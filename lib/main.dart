@@ -3,9 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:prime_vpn/routes/app_routes.dart';
-import 'views/account_page.dart';
-import 'views/home_page.dart';
-import 'views/location_page.dart';
+import 'package:prime_vpn/view_model/home_controller.dart';
 import 'theme/theme.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -49,49 +47,52 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex=0;
-  final _pages = [const HomePage(), const LocationPage(), const AccountPage()];
+  var homeController = Get.put(HomeController());
+
+  @override
+  void dispose() {
+    homeController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      bottomNavigationBar: BottomNavigationBar(
-          elevation: 2,
-          backgroundColor: Theme.of(context).colorScheme.background,
-          currentIndex: _selectedIndex,
-          selectedItemColor: Theme.of(context).colorScheme.primary,
-          unselectedItemColor: Theme.of(context).colorScheme.surface,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          onTap: (index) => _onItemTapped(index),
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon:(_selectedIndex ==0 )
-                  ?SvgPicture.asset('assets/svg/ic_home_selected.svg')
-                  :SvgPicture.asset('assets/svg/ic_home_unselected.svg'),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon:(_selectedIndex ==1)
-                  ?SvgPicture.asset('assets/svg/ic_search_selected.svg')
-                  :SvgPicture.asset('assets/svg/ic_search_unselected.svg'),
-              label: 'Search',
-            ),
-            BottomNavigationBarItem(
-              icon:(_selectedIndex == 2)
-                  ?SvgPicture.asset('assets/svg/ic_account_selected.svg')
-                  :SvgPicture.asset('assets/svg/ic_account_unselected.svg'),
-              label: 'Account',
-            ),
-          ]
+    return Obx(
+      ()=> Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        bottomNavigationBar: BottomNavigationBar(
+            elevation: 2,
+            backgroundColor: Theme.of(context).colorScheme.background,
+            currentIndex: homeController.selectedIndex.value,
+            selectedItemColor: Theme.of(context).colorScheme.primary,
+            unselectedItemColor: Theme.of(context).colorScheme.surface,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            onTap: (index) => homeController.onItemTapped(index),
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon:(homeController.selectedIndex.value ==0 )
+                    ?SvgPicture.asset('assets/svg/ic_home_selected.svg')
+                    :SvgPicture.asset('assets/svg/ic_home_unselected.svg'),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon:(homeController.selectedIndex.value ==1)
+                    ?SvgPicture.asset('assets/svg/ic_search_selected.svg')
+                    :SvgPicture.asset('assets/svg/ic_search_unselected.svg'),
+                label: 'Search',
+              ),
+              BottomNavigationBarItem(
+                icon:(homeController.selectedIndex.value == 2)
+                    ?SvgPicture.asset('assets/svg/ic_account_selected.svg')
+                    :SvgPicture.asset('assets/svg/ic_account_unselected.svg'),
+                label: 'Account',
+              ),
+            ]
+        ),
+        body: IndexedStack(index: homeController.selectedIndex.value,children:homeController.pages),
       ),
-      body: IndexedStack(index: _selectedIndex,children:_pages),
     );
-  }
-  void _onItemTapped(int index){
-    setState(() {
-      _selectedIndex = index;
-    });
   }
 }
