@@ -139,7 +139,7 @@ public class DeviceStateReceiver extends BroadcastReceiver implements ByteCountL
         SharedPreferences prefs = Preferences.getDefaultSharedPreferences(context);
 
 
-        if (ConnectivityManager.CONNECTIVITY_ACTION.equals(intent.getAction())) {
+        if (ConnectivityManager.registerDefaultNetworkCallback(NetworkCallback).equals(intent.getAction())) {
             networkStateChange(context);
         } else if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
             boolean screenOffPause = prefs.getBoolean("screenoff", false);

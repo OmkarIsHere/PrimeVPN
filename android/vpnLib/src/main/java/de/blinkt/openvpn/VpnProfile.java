@@ -15,8 +15,8 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.security.KeyChain;
 import android.security.KeyChainException;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import android.annotation.NonNull;
+import android.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Base64;
 
@@ -796,7 +796,8 @@ public class VpnProfile implements Serializable, Cloneable {
         for (Connection conn : mConnections) {
             copy.mConnections[i++] = conn.clone();
         }
-        copy.mAllowedAppsVpn = (HashSet<String>) mAllowedAppsVpn.clone();
+//        copy.mAllowedAppsVpn = (HashSet<String>) mAllowedAppsVpn.clone();
+        copy.mAllowedAppsVpn = new HashSet<String>(mAllowedAppsVpn);
         return copy;
     }
 

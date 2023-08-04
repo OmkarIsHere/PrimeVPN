@@ -315,7 +315,7 @@ public class LogItem implements Parcelable {
         String version = "error getting version";
         try {
             @SuppressLint("PackageManagerGetSignatures")
-            Signature raw = c.getPackageManager().getPackageInfo(c.getPackageName(), PackageManager.GET_SIGNATURES).signatures[0];
+            Signature raw = c.getPackageManager().getPackageInfo(c.getPackageName(), PackageManager.GET_SIGNING_CERTIFICATES).signatures[0];
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             X509Certificate cert = (X509Certificate) cf.generateCertificate(new ByteArrayInputStream(raw.toByteArray()));
             MessageDigest md = MessageDigest.getInstance("SHA-1");

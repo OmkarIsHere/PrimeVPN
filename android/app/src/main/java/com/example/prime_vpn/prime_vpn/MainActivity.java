@@ -1,17 +1,17 @@
 package com.example.prime_vpn.prime_vpn;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.VpnService;
-import android.os.Bundle;
-import android.os.RemoteException;
-import android.provider.Settings;
-import android.util.Log;
-import android.widget.Toast;
+import androidx.content.BroadcastReceiver;
+import androidx.content.Context;
+import androidx.content.Intent;
+import androidx.content.IntentFilter;
+import androidx.net.ConnectivityManager;
+import androidx.net.NetworkInfo;
+import androidx.net.VpnService;
+import androidx.os.Bundle;
+import androidx.os.RemoteException;
+import androidx.provider.Settings;
+import androidx.util.Log;
+import androidx.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
