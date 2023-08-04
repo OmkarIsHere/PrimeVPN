@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../models/vpn_status.dart';
+import '../services/vpn_engine.dart';
 import '../view_model/home_controller.dart';
 import 'overview_container.dart';
 
@@ -16,6 +18,8 @@ class _ConnectedVPNOverviewState extends State<ConnectedVPNOverview> {
   @override
   void dispose() {
     homeController.dispose();
+    VpnEngine.vpnStatusSnapshot();
+    StreamBuilder<VpnStatus?>;
     super.dispose();
   }
 
@@ -33,23 +37,52 @@ class _ConnectedVPNOverviewState extends State<ConnectedVPNOverview> {
           children:[
             OverViewContainer(
                 header:"Ping",
-                data:(homeController.vpn.value!.ping != 0) ? '${homeController.vpn.value!.ping.toString()} ms': '--',
+                data:(homeController.vpn.value!.ping != '') ? '${homeController.vpn.value!.ping.toString()} ms': '--',
                 icon: 'assets/svg/ic_lightning.svg'),
             OverViewContainer(
                 header:"Server",
                 data: (homeController.vpn.value!.countryLong.isNotEmpty)? homeController.vpn.value!.countryLong : '--',
                 icon: 'assets/svg/ic_globe.svg'),
-            OverViewContainer(
-                header: "Download",
-                data: "100 Mbps",
-                icon:'assets/svg/ic_download_ping.svg'),
-            OverViewContainer(
-                header: "Upload",
-                data: "100 Mbps",
-                icon: 'assets/svg/ic_upload_ping.svg'),
+            tempFunction1(),
+            tempFunction2(),
+            // OverViewContainer(
+            //     header: "Download",
+            //     data: "100 Mbps",
+            //     icon:'assets/svg/ic_download_ping.svg'),
+            // OverViewContainer(
+            //     header: "Upload",
+            //     data: "100 Mbps",
+            //     icon: 'assets/svg/ic_upload_ping.svg'),
           ],
         ),
       ),
+    );
+  }
+
+  Widget tempFunction1(){
+    return StreamBuilder<VpnStatus?>(
+        initialData: VpnStatus(),
+        stream: VpnEngine.vpnStatusSnapshot(),
+        builder: (context, snapshot) {
+          print('streamIn = ${snapshot.data?.byteIn ?? '--'}');
+          return OverViewContainer(
+              header: "Download",
+              data: snapshot.data?.byteIn ?? '--',
+              icon:'assets/svg/ic_download_ping.svg');
+        }
+    );
+  }
+  Widget tempFunction2(){
+    return StreamBuilder<VpnStatus?>(
+        initialData: VpnStatus(),
+        stream: VpnEngine.vpnStatusSnapshot(),
+        builder: (context, snapshot) {
+          print('streamOut = ${snapshot.data?.byteOut ?? '--'}');
+          return OverViewContainer(
+              header: "Upload",
+              data: snapshot.data?.byteOut ?? '--',
+              icon:'assets/svg/ic_upload_ping.svg');
+        }
     );
   }
 }

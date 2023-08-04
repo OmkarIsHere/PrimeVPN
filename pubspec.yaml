@@ -30,21 +30,19 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-#  firebase_core: ^2.14.0
-#  firebase_auth: ^4.6.3
-#  cloud_firestore: ^4.8.2
-#  firebase_storage: ^11.2.5
-#  shared_preferences: ^2.2.0
+  #  firebase_core: ^2.14.0
+  #  firebase_auth: ^4.6.3
+  #  cloud_firestore: ^4.8.2
+  #  firebase_storage: ^11.2.5
+  #  shared_preferences: ^2.2.0
   flutter_svg: ^2.0.7
   get: ^4.6.5
   flutter_native_splash: ^2.3.1
   lottie: ^2.5.0
   http: ^1.1.0
   csv: ^5.0.2
-#  intl: ^0.18.1
+  #  intl: ^0.18.1
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
 flutter_native_splash:
@@ -114,6 +112,5 @@ flutter:
         - asset: assets/fonts/Montserrat-Regular.ttf
           style: normal
           weight: 400
-  #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

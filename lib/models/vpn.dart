@@ -19,7 +19,7 @@ class VPN {
   late final String hostName;
   late final String ip;
   late final int score;
-  late final int ping;
+  late final String ping;
   late final int speed;
   late final String countryLong;
   late final String countryShort;
@@ -36,7 +36,7 @@ class VPN {
     hostName = json['HostName'] ?? '';
     ip = json['IP'] ?? '';
     score = json['Score'] ?? 0;
-    ping = json['Ping'] ?? 0;
+    ping = json['Ping'].toString() ?? '';
     speed = json['Speed'] ?? 0;
     countryLong = json['CountryLong'] ?? '';
     countryShort = json['CountryShort'] ?? '';

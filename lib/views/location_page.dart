@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/get.dart';
 import 'package:prime_vpn/view_model/location_controller.dart';
-import 'package:prime_vpn/widgets/all_widgets.dart';
+import 'package:prime_vpn/widgets/utils.dart';
 
 import '../widgets/location_country_card.dart';
 
@@ -13,7 +13,7 @@ class LocationPage extends StatefulWidget {
 }
 
 class _LocationPageState extends State<LocationPage> {
-  final locationController = LocationController();
+  final locationController = Get.put(LocationController());
 
   @override
   void initState() {

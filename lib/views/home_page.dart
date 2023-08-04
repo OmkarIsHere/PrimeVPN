@@ -6,6 +6,10 @@ import 'package:prime_vpn/view_model/wave_animation_controller.dart';
 import 'package:prime_vpn/widgets/connected_vpn_overview.dart';
 import 'package:prime_vpn/widgets/countdown_timer.dart';
 
+import '../services/vpn_engine.dart';
+import '../view_model/home_controller.dart';
+import '../view_model/timer_controller.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,19 +20,27 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>{
 
-  final waveAnimationController = WaveAnimationController();
+  final waveAnimationController = Get.put(WaveAnimationController());
+  final homeController = Get.find<HomeController>();
+  final timerController = Get.put(TimerController());
 
   @override
   void dispose() {
     waveAnimationController.spiralController.dispose();
     waveAnimationController.controller.dispose();
     waveAnimationController.dispose();
+    timerController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     var mq = MediaQuery.of(context).size;
+
+    VpnEngine.vpnStageSnapshot().listen((event) {
+      homeController.vpnState.value = event;
+      print('Home Page: ${homeController.vpnState.value}');
+    });
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -74,12 +86,12 @@ class _HomePageState extends State<HomePage>{
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              Obx(() =>CountDownTimer(isStarted: waveAnimationController.isStarted.value)),
+              const CountDownTimer(),
               Obx(()=> Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: Center(
                     child: Text(
-                      (waveAnimationController.isStarted.value)?'Connected':'Not Connected',
+                      (homeController.vpnState.value == VpnEngine.vpnDisconnected)?'Not Connected':homeController.getVpnState(),
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.secondary,
                         fontSize: 18,
@@ -96,7 +108,7 @@ class _HomePageState extends State<HomePage>{
                     children: [
                       Center(
                           child: Obx(
-                        () => (waveAnimationController.isStarted.value)
+                        () => (homeController.vpnState.value == VpnEngine.vpnConnected)
                             ? RotationTransition(
                                 turns: CurvedAnimation(
                                     parent: waveAnimationController.controller, curve: Curves.linear),
@@ -106,7 +118,7 @@ class _HomePageState extends State<HomePage>{
                       )),
                       Center(
                           child: Obx(
-                        () => (waveAnimationController.isStarted.value)
+                        () => (homeController.vpnState.value == VpnEngine.vpnConnected)
                             ? RotationTransition(
                                 turns: CurvedAnimation(
                                     parent: waveAnimationController.spiralController,
@@ -122,7 +134,9 @@ class _HomePageState extends State<HomePage>{
                           child: InkWell(
                         onTap: () {
                          // waveAnimationController.isStarted.value = !waveAnimationController.isStarted.value;
-                         waveAnimationController.updateState();
+                          homeController.connectToVpn();
+                          (homeController.vpnState.value == VpnEngine.vpnConnected) ? timerController.startTimer():timerController.stopTimer();
+                          // waveAnimationController.updateState();
                         },
                         child: Image.asset('assets/images/btn_start.png',
                             height: 65, width: 65),
@@ -136,8 +150,36 @@ class _HomePageState extends State<HomePage>{
       ),
     );
   }
-  String capitalize(String str){
-    str = str.replaceAll('_', ' ');
-    return (str[0].toUpperCase() + str.substring(1));
-  }
 }
+
+// StreamBuilder<VpnStatus?>(
+// initialData: VpnStatus(),
+// stream: VpnEngine.vpnStatusSnapshot(),
+// builder: (context, snapshot) => Row(
+// mainAxisAlignment: MainAxisAlignment.center,
+// children: [
+// //download
+// HomeCard(
+// title: '${snapshot.data?.byteIn ?? '0 kbps'}',
+// subtitle: 'DOWNLOAD',
+// icon: CircleAvatar(
+// radius: 30,
+// backgroundColor: Colors.lightGreen,
+// child: Icon(Icons.arrow_downward_rounded,
+// size: 30, color: Colors.white),
+// )),
+//
+// //upload
+// HomeCard(
+// title: '${snapshot.data?.byteOut ?? '0 kbps'}',
+// subtitle: 'UPLOAD',
+// icon: CircleAvatar(
+// radius: 30,
+// backgroundColor: Colors.blue,
+// child: Icon(Icons.arrow_upward_rounded,
+// size: 30, color: Colors.white),
+// )),
+// ],
+// ))
+// ]),
+// );

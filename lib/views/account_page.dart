@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:prime_vpn/widgets/all_widgets.dart';
+import 'package:prime_vpn/widgets/utils.dart';
 
 class AccountPage extends StatelessWidget {
   const AccountPage({super.key});
